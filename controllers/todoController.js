@@ -5,7 +5,7 @@ var db = require('../dao/todoDao');
 module.exports = {
     get:[],
     post:[],
-    index: function(req, res, next) {
+    index: function(item, req, res, next) {
         db.allTodos(function(err, todos) {
             if (err) {
                 return next(err);
@@ -17,8 +17,8 @@ module.exports = {
         });
     },
 
-    new: function(req, res, next) {
-        var title = req.body.title || '';
+    new: function(item, req, res, next) {
+        var title = item.title || '';
         title = title.trim();
         if (!title) {
             return res.render('error.html', {
@@ -33,13 +33,12 @@ module.exports = {
             res.redirect('/');
         });
     },
-    view: function(req, res, next) {
+    view: function(item, req, res, next) {
         res.redirect('/');
 
     },
-    edit: function(req, res, next) {
-        var id = req.query.id;
-        db.findTodoById(id,
+    edit: function(item, req, res, next) {
+        db.findTodoById(item.id,
         function(err, row) {
             if (err) {
                 return next(err);
@@ -52,16 +51,14 @@ module.exports = {
             });
         });
     },
-    save: function(req, res, next) {
-        var id = req.query.id;
-        var title = req.body.title || '';
-        title = title.trim();
+    save: function(item, req, res, next) {
+        var title = (item.title || '').trim();
         if (!title) {
             return res.render('error.html', {
                 message: '标题是必须的'
             });
         }
-        db.editTitle(id, title,
+        db.editTitle(item.id, title,
         function(err, result) {
             if (err) {
                 return next(err);
@@ -69,9 +66,8 @@ module.exports = {
             res.redirect('/');
         });
     },
-    delete: function(req, res, next) {
-        var id = req.query.id;
-        db.delete(id,
+    delete: function(item, req, res, next) {
+        db.delete(item.id,
         function(err) {
             if (err) {
                 return next(err);
@@ -79,10 +75,9 @@ module.exports = {
             res.redirect('/');
         });
     },
-    finish: function(req, res, next) {
-        var finished = req.query.status === 'yes' ? true: false;
-        var id = req.query.id;
-        db.editFinished(id, finished,
+    finish: function(item, req, res, next) {
+        var finished = item.status === 'yes' ? true: false;
+        db.editFinished(item.id, finished,
         function(err, result) {
             if (err) {
                 return next(err);
