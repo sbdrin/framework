@@ -1,0 +1,10 @@
+"use strict";
+
+module.exports = {
+    debug: true,
+    port: 3002,
+    db: 'mongodb://127.0.0.1:27017/todo_dev',
+    routes:{
+    	todo: require('./controllers/todoController')
+    }
+}
