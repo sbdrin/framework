@@ -17,7 +17,7 @@ module.exports = {
         });
     },
 
-    new: function(item, req, res, next) {
+    add: function(item, req, res, next) {
         var title = item.title || '';
         title = title.trim();
         if (!title) {
@@ -30,11 +30,11 @@ module.exports = {
             if (err) {
                 return next(err);
             }
-            res.redirect('/');
+            res.redirect('/todo/index');
         });
     },
     view: function(item, req, res, next) {
-        res.redirect('/');
+        res.redirect('/todo/index');
 
     },
     edit: function(item, req, res, next) {
@@ -63,7 +63,7 @@ module.exports = {
             if (err) {
                 return next(err);
             }
-            res.redirect('/');
+            res.redirect('/todo/index');
         });
     },
     delete: function(item, req, res, next) {
@@ -72,7 +72,7 @@ module.exports = {
             if (err) {
                 return next(err);
             }
-            res.redirect('/');
+            res.redirect('/todo/index');
         });
     },
     finish: function(item, req, res, next) {
@@ -82,7 +82,7 @@ module.exports = {
             if (err) {
                 return next(err);
             }
-            res.redirect('/');
+            res.redirect('/todo/index');
         });
     }
 }

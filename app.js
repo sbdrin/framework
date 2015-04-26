@@ -24,33 +24,35 @@ function(req, res, next) {
     req, res, next)
 });
 for (var i in config.routes) {
-    var route = config.routes[i];
-    for (var item in route) {
-        if (route.get && route.get.indexOf(item) > -1) {
-             app.route(["", i, item].join('/')).get((function(item) {
-                return function(req, res, next) {
-                    route[item](req.query, req, res, next);
-                }
-            } (item)));
-        } else if (route.post && route.post.indexOf(item) > -1) {
-            app.route(["", i, item].join('/')).post((function(item) {
-                return function(req, res, next) {
-                    route[item](req.body, req, res, next);
-                    console.log(item);
-                }
-            } (item)));
-        } else {
-            app.route(["", i, item].join('/')).all((function(item) {
-                return function(req, res, next) {
-                    var model = req.query || {};
-                    for (var p in req.body) {
-                            model[p] = req.body[p];
+    (function(i) {
+        var route = config.routes[i]; 
+        for (var item in route) {
+            if (route.get && route.get.indexOf(item) > -1) {
+                app.route(["", i, item].join('/')).get((function(item) {
+                    return function(req, res, next) {
+                        route[item](req.query, req, res, next);
                     }
-                    route[item](model, req, res, next);
-                }
-            } (item)));
+                } (item)));
+            } else if (route.post && route.post.indexOf(item) > -1) {
+                app.route(["", i, item].join('/')).post((function(item) {
+                    return function(req, res, next) {
+                        route[item](req.body, req, res, next);
+                        console.log(item);
+                    }
+                } (item)));
+            } else {
+                app.route(["", i, item].join('/')).all((function(item) {
+                    return function(req, res, next) {
+                        var model = req.query || {};
+                        for (var p in req.body) {
+                            model[p] = req.body[p];
+                        }
+                        route[item](model, req, res, next);
+                    }
+                } (item)));
+            }
         }
-    }
+    })(i);
 }
 
 var mongoose = require('mongoose');
