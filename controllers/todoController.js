@@ -6,7 +6,7 @@ module.exports = {
     get:[],
     post:[],
     index: function(item, req, res, next) {
-        db.allTodos(function(err, todos) {
+        db.findAll(function(err, todos) {
             if (err) {
                 return next(err);
             }
@@ -38,7 +38,7 @@ module.exports = {
 
     },
     edit: function(item, req, res, next) {
-        db.findTodoById(item.id,
+        db.findById(item.id,
         function(err, row) {
             if (err) {
                 return next(err);
@@ -52,13 +52,13 @@ module.exports = {
         });
     },
     save: function(item, req, res, next) {
-        var title = (item.title || '').trim();
-        if (!title) {
+        item.title = (item.title || '').trim();
+        if (!item.title) {
             return res.render('error.html', {
                 message: '标题是必须的'
             });
         }
-        db.editTitle(item.id, title,
+        db.edit(item,
         function(err, result) {
             if (err) {
                 return next(err);
@@ -76,8 +76,8 @@ module.exports = {
         });
     },
     finish: function(item, req, res, next) {
-        var finished = item.status === 'yes' ? true: false;
-        db.editFinished(item.id, finished,
+        item.finished = item.status === 'yes' ? true: false;
+        db.edit(item,
         function(err, result) {
             if (err) {
                 return next(err);
