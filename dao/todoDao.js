@@ -1,5 +1,5 @@
 var util = require('util');
-var Todo = require('../model/Todo');
+var Todo = require('../model/todo');
 var baseDao = require('./baseDao.js');
 //exports.emptyNote = { "_id": "", author: "", note: "" };
 var Dao = function() {
