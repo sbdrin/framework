@@ -25,7 +25,7 @@ module.exports = {
                 message: '标题是必须的'
             });
         }
-        db.add(title,
+        db.add(item,
         function(err, row) {
             if (err) {
                 return next(err);

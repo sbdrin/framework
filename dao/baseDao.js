@@ -7,9 +7,9 @@ module.exports = function(Model){
 }
 module.exports.prototype =
 {
-    add: function(title, callback) {
+    add: function(item, callback) {
         var newModel = new this.Model();
-        newModel.title = title;
+        newModel.title = item.title;
         newModel.save(function(err) {
             if (err) {
                 callback(err);

@@ -1,12 +1,31 @@
 module.exports = {
     citi: {
-        getUser: {
-            rows: [{name: "citi"}]
+        model: {
+            title: 'String',
+            finished: {
+                type: 'Boolean',
+            default:
+                false
+            },
+            post_date: {
+                type: 'Date'
+            }
+        },
+        urls: {
+            getUser: {
+                rows: [{
+                    name: "citi"
+                }]
+            }
         }
     },
     vision: {
-        getUser: {
-            rows: [{name: "vision"}]
+        urls: {
+            getUser: {
+                rows: [{
+                    name: "citi"
+                }]
+            }
         }
     }
 };

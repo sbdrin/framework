@@ -12,4 +12,4 @@ mongoose.model('todo', new mongoose.Schema({
         Date.now
     }
 }));
-module.exports = mongoose.model('todo');
+module.exports = mongoose.model('todo'); 

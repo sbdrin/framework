@@ -30,12 +30,15 @@ function() {
     for (var i in gen) {
         newCon.push([i,":require('./controllers/" ,i,"Controller')"].join(""));
         var newFuncs = [old];
-        for (var func in gen[i]) {
-            newFuncs.push("  " + func + " : function(item, req, res, next) {return " + JSON.stringify(gen[i][func]) + "}");
+        var funcs = gen[i].urls;
+        var model = JSON.stringify(gen[i].model);
+        model && gulp.src(['../output/model/',i,".js"].join("")).pipe(replace(/\({([^]+)}\)/,["(", model.replace(/:"/g,':').replace(/",/g,',').replace(/"}/g,'}') ,")"].join(""))).pipe(gulp.dest("../output/model"));
+
+        for (var func in funcs) {
+            newFuncs.push("  " + func + " : function(item, req, res, next) {return " + JSON.stringify(funcs[func]) + "}");
         }
         gulp.src(['../output/controllers/', i, "controller.js"].join("")).pipe(replace(old, newFuncs.join(","))).pipe(gulp.dest("../output/controllers/"));
     }
-    newCon.splice(newCon.length -1,1,"");
-    gulp.src('../output/config.js').pipe(replace(oldCon, oldCon + newCon.join(","))).pipe(gulp.dest("../output"));
+    gulp.src('../output/config.js').pipe(replace(/routes:{([^]+)}/, oldCon + newCon.join(",") + "}}")).pipe(gulp.dest("../output"));
 });
 gulp.task('scripts', ['gen', 'control']);
