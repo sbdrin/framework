@@ -35,7 +35,7 @@ function() {
         model && gulp.src(['../output/model/',i,".js"].join("")).pipe(replace(/\({([^]+)}\)/,["(", model.replace(/:"/g,':').replace(/",/g,',').replace(/"}/g,'}') ,")"].join(""))).pipe(gulp.dest("../output/model"));
 
         for (var func in funcs) {
-            newFuncs.push("  " + func + " : function(item, req, res, next) {return " + JSON.stringify(funcs[func]) + "}");
+            newFuncs.push("  " + func + " : function(item, req, res, next) {return req.body =" + JSON.stringify(funcs[func]) + "}");
         }
         gulp.src(['../output/controllers/', i, "controller.js"].join("")).pipe(replace(old, newFuncs.join(","))).pipe(gulp.dest("../output/controllers/"));
     }

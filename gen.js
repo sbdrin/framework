@@ -14,7 +14,7 @@ module.exports = {
         urls: {
             getUser: {
                 rows: [{
-                    name: "citi"
+                    name: 'citi'
                 }]
             }
         }
@@ -23,7 +23,7 @@ module.exports = {
         urls: {
             getUser: {
                 rows: [{
-                    name: "citi"
+                    name: 'citi'
                 }]
             }
         }
